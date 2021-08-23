@@ -7,7 +7,7 @@ public class BaseInitialiseService implements InitialiseService{
     }
 
     @Override
-    public void createParty(String nameParty, String startTimeParty, String endTimeParty) {
-
+    public void createPartyInDatabase(String nameParty, String codeParty, String startTimeParty, String endTimeParty) {
+        
     }
 }
