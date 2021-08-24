@@ -15,4 +15,31 @@ public class DataBase {
         connection = DriverManager.getConnection(dbURL, userName, password);
         statement = connection.createStatement();
     }
+
+    private void checkTable() {
+        String createDatabase = """
+                CREATE DATABASE Parties\040
+                (id SERIAL,
+                description VARCHAR(100),
+                details TEXT,
+                price DECIMAL(8,2),
+                PRIMARY KEY (id));""";
+    }
+
+    public boolean createParty(String nameParty, String codeParty, String startTimeParty, String endTimeParty){
+        checkTable();
+        return true;
+    }
+
+    /*public boolean createUser(String codeParty, String nameUser) {
+
+    }*/
+
+    public void disconnect() throws SQLException {
+        connection.close();
+    }
+
+    public boolean createUser(String codeParty, String nameUser) {
+        return true;
+    }
 }

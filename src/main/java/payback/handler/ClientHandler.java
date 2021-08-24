@@ -14,9 +14,13 @@ public class ClientHandler {
     private DataOutputStream out;
     private DataInputStream in;
 
+    private String nameParty;
+    private String codeParty;
+
     private static final String CREATE_CMD_PREFIX = "/create_party"; // + nameParty + codeParty + startTimeParty
     // + endTimeParty
     private static final String LOG_IN_CMD_PREFIX = "/log_in_party"; // + codeParty + name_user
+    private static final String CREATE_OK_CMD_PREFIX = "/create_party_ok";
 
     public ClientHandler(ServerApp serverApp, Socket socket) {
         this.serverApp = serverApp;
@@ -39,12 +43,20 @@ public class ClientHandler {
         while (true) {
             String message = in.readUTF();
             if(message.startsWith(CREATE_CMD_PREFIX)){
-                processCreateParty(message);
+                boolean isCreatedParty = processCreateParty(message);
+                if(isCreatedParty){
+                    out.writeUTF(CREATE_OK_CMD_PREFIX);
+                }
+            }else if(message.startsWith(LOG_IN_CMD_PREFIX)){
+                boolean isLogged = processRegistrationUser(message);
+                if (isLogged){
+                    break;
+                }
             }
         }
     }
 
-    private void processCreateParty(String message) {
+    private boolean processCreateParty(String message) {
         String[] party = message.split("\\s+",5);
         String nameParty = party[1];
         String codeParty = party[2];
@@ -52,6 +64,14 @@ public class ClientHandler {
         String endTimeParty = party[4];
 
         InitialiseService initialiseService = serverApp.getInitialiseService();
-        initialiseService.createPartyInDatabase(nameParty, codeParty, startTimeParty, endTimeParty);
+        return initialiseService.createPartyInDatabase(nameParty, codeParty, startTimeParty, endTimeParty);
+    }
+
+    private boolean processRegistrationUser(String message) {
+        String[] personInfo = message.split("\\s+", 3);
+        String codeParty = personInfo[1];
+        String nameUser = personInfo[2];
+        InitialiseService initialiseService = serverApp.getInitialiseService();
+        return initialiseService.createUserByCodeParty(codeParty, nameUser);
     }
 }
