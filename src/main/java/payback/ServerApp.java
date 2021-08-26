@@ -4,8 +4,10 @@ import payback.handler.ClientHandler;
 import payback.initialise.BaseInitialiseService;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.logging.*;
@@ -45,9 +47,10 @@ public class ServerApp {
         this.initialiseService = new BaseInitialiseService();
     }
 
-    public void start() {
+    public void start() throws UnknownHostException {
         parametersLogger();
         LOGGER.info("Сервер запущен!");
+        LOGGER.info("Имя хоста: " + InetAddress.getLocalHost().getHostName());
 
         try {
             while (true) {
