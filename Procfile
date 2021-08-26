@@ -1,1 +1,1 @@
-web: java $JAVA_OPTS -cp target/classes:target/dependency/* ServerPayBack
+web: java $JAVA_OPTS -cp target/classes:target/dependency/* ServerPayBack/src/main/java/Server
