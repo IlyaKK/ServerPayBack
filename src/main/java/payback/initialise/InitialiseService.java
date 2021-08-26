@@ -2,5 +2,7 @@ package payback.initialise;
 
 public interface InitialiseService {
     String getNamePartyByCodeParty(String codeParty);
-    void createParty(String nameParty, String startTimeParty, String endTimeParty);
+    boolean createPartyInDatabase(String nameParty, String codeParty, String startTimeParty, String endTimeParty);
+
+    boolean createUserByCodeParty(String codeParty, String nameUser);
 }
