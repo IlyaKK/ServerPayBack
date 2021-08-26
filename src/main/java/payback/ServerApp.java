@@ -19,7 +19,7 @@ public class ServerApp {
         DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
         try {
             Handler handler;
-            handler = new FileHandler("src/main/resources/serve/logs/serverLog.log");
+            handler = new FileHandler("src/main/resources/logs/serverLog.log");
             LOGGER.addHandler(handler);
         } catch (IOException e) {
             e.printStackTrace();

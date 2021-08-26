@@ -3,7 +3,7 @@ import payback.ServerApp;
 import java.io.IOException;
 
 public class Server {
-    private static final int DEFAULT_PORT = 8888;
+    private static final int DEFAULT_PORT = 8082;
 
     public static void main(String[] args) {
         int port = DEFAULT_PORT;

@@ -45,7 +45,8 @@ public class ClientHandler {
             if(message.startsWith(CREATE_CMD_PREFIX)){
                 boolean isCreatedParty = processCreateParty(message);
                 if(isCreatedParty){
-                    out.writeUTF(CREATE_OK_CMD_PREFIX);
+                    out.writeUTF(CREATE_OK_CMD_PREFIX + " " + message.split("\\s+",7)[2]);
+                    break;
                 }
             }else if(message.startsWith(LOG_IN_CMD_PREFIX)){
                 boolean isLogged = processRegistrationUser(message);
@@ -57,14 +58,16 @@ public class ClientHandler {
     }
 
     private boolean processCreateParty(String message) {
-        String[] party = message.split("\\s+",5);
+        String[] party = message.split("\\s+",7);
         String nameParty = party[1];
         String codeParty = party[2];
         String startTimeParty = party[3];
-        String endTimeParty = party[4];
+        String startDateParty = party [4];
+        String endTimeParty = party[5];
+        String endDateParty = party[6];
 
         InitialiseService initialiseService = serverApp.getInitialiseService();
-        return initialiseService.createPartyInDatabase(nameParty, codeParty, startTimeParty, endTimeParty);
+        return initialiseService.createPartyInDatabase(nameParty, codeParty, startTimeParty + " " + startDateParty, endTimeParty + " " + endDateParty);
     }
 
     private boolean processRegistrationUser(String message) {

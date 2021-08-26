@@ -2,6 +2,7 @@ package payback.initialise;
 
 import payback.database.DataBase;
 
+import java.net.URISyntaxException;
 import java.sql.SQLException;
 
 public class BaseInitialiseService implements InitialiseService{
@@ -22,7 +23,7 @@ public class BaseInitialiseService implements InitialiseService{
                     e.printStackTrace();
                 }
                 return true;
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException | URISyntaxException e) {
             e.printStackTrace();
         }
         return false;
@@ -33,7 +34,7 @@ public class BaseInitialiseService implements InitialiseService{
         DataBase dataBase = new DataBase();
         try {
             dataBase.connect();
-        } catch (SQLException e) {
+        } catch (SQLException | ClassNotFoundException | URISyntaxException e) {
             e.printStackTrace();
         }
         if(dataBase.createUser(codeParty, nameUser)) {
