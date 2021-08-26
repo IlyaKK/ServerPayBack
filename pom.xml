@@ -26,12 +26,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
-                <configuration>
-                    <release>11</release>
-                    <source>15</source>
-                    <target>15</target>
-                </configuration>
+                <version>3.6.2</version>
             </plugin>
         </plugins>
     </build>
