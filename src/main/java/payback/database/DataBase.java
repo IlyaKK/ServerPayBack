@@ -24,7 +24,7 @@ public class DataBase {
                 "PartyID serial PRIMARY KEY," +
                 "NameParty TEXT NOT NULL," +
                 "CodeParty TEXT NOT NULL," +
-                "DateStartParty TEXT NOT NULL" +
+                "DateStartParty TEXT NOT NULL," +
                 "DateEndParty TEXT NOT NULL" +
                 ")";
         statement.executeUpdate(createDatabase);
