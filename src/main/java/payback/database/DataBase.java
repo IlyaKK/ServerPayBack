@@ -19,12 +19,13 @@ public class DataBase {
     }
 
     public void checkTableParties() throws SQLException {
-        String createDatabase = "CREATE TABLE IF NOT EXISTS public.Students" +
+        String createDatabase = "CREATE TABLE IF NOT EXISTS public.Parties" +
                 "(" +
-                "StudID INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
-                "Name TEXT NOT NULL," +
-                "GroupName TEXT NOT NULL," +
-                "Score INTEGER NOT NULL" +
+                "PartyID INTEGER PRIMARY KEY SERIAL NOT NULL," +
+                "NameParty TEXT NOT NULL," +
+                "CodeParty TEXT NOT NULL," +
+                "DateStartParty TEXT NOT NULL" +
+                "DateEndParty TEXT NOT NULL" +
                 ")";
         statement.executeUpdate(createDatabase);
     }
