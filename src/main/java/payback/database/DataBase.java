@@ -21,7 +21,7 @@ public class DataBase {
     public void checkTableParties() throws SQLException {
         String createDatabase = "CREATE TABLE IF NOT EXISTS public.Parties" +
                 "(" +
-                "PartyID INTEGER PRIMARY KEY serial NOT NULL," +
+                "PartyID serial PRIMARY KEY," +
                 "NameParty TEXT NOT NULL," +
                 "CodeParty TEXT NOT NULL," +
                 "DateStartParty TEXT NOT NULL" +
