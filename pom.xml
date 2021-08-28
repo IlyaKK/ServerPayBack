@@ -46,6 +46,13 @@
             <artifactId>tomcat-jsp-api</artifactId>
             <version>${tomcat.version}</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.json/json -->
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20210307</version>
+        </dependency>
+
     </dependencies>
 
     <build>
