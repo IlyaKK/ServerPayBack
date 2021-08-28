@@ -21,8 +21,9 @@ import static payback.Log.parametersLogger;
         name = "CreateParty",
         urlPatterns = {"/createParty"}
 )
-public class CreatePartyServlet extends HttpServlet {
+public class CreatePartyServlet extends HttpServlet{
     Party party = new Party();
+
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         parametersLogger();
