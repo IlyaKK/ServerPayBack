@@ -36,7 +36,7 @@ public class DataBase {
         checkTableParties();
         connect();
         String insertParty = String.format("INSERT INTO public.Parties" +
-                " VALUES (DEFAULT, '%s', '%s', '%s', '%s')", nameParty, codeParty, startTimeParty, endTimeParty);
+                " (NameParty, CodeParty, DateStartParty, DateEndParty) VALUES ('%s', '%s', '%s', '%s')", nameParty, codeParty, startTimeParty, endTimeParty);
         statement.executeUpdate(insertParty);
         disconnect();
     }
