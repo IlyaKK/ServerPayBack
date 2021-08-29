@@ -26,21 +26,21 @@ public class CreatePartyServlet extends HttpServlet {
 
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        parametersLogger();
+        //parametersLogger();
 
-        LOGGER.info("In do Get");
+        System.out.println("In do Get");
         response.setContentType("application/json");
 
         try {
-            LOGGER.info(String.valueOf(request.getParameter("TAG")));
+            System.out.println(String.valueOf(request.getParameter("TAG")));
             JSONObject jsonRequest = new JSONObject(request.getParameter("TAG"));//from url in app
-            LOGGER.info(String.valueOf(jsonRequest));
+            System.out.println(String.valueOf(jsonRequest));
             party.setNameParty(jsonRequest.getString("name_party"));
             party.setDateStart(jsonRequest.getString("data_start"));
             party.setDateEnd(jsonRequest.getString("data_end"));
             party.generateCodeParty();
 
-            LOGGER.info("PartyName: " + party.getNameParty());
+            System.out.println("PartyName: " + party.getNameParty());
 
             //send back to app
             HashMap<String, String> map;
