@@ -23,7 +23,7 @@ public class DataBase {
         String createDatabase = "CREATE TABLE IF NOT EXISTS public.Parties" +
                 "(" +
                 "PartyID serial PRIMARY KEY," +
-                "NameParty TEXT NOT NULL," +
+                "NameParty varchar(60) NOT NULL," +
                 "CodeParty TEXT NOT NULL," +
                 "DateStartParty timestamp," +
                 "DateEndParty timestamp" +
@@ -36,7 +36,7 @@ public class DataBase {
         checkTableParties();
         connect();
         String insertParty = String.format("INSERT INTO public.Parties" +
-                " (PartyID, NameParty, CodeParty, DateStartParty, DateEndParty) VALUES (%d, %s, %s, %s:00, %s:00)", 1, nameParty, codeParty, startTimeParty, endTimeParty);
+                " (PartyID, NameParty, CodeParty, DateStartParty, DateEndParty) VALUES (%d, %s, %s, %s, %s)", 1, nameParty, codeParty, startTimeParty, endTimeParty);
         statement.executeUpdate(insertParty);
         disconnect();
     }
