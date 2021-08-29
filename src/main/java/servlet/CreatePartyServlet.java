@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URISyntaxException;
+import java.sql.SQLException;
 import java.util.HashMap;
 
 
@@ -28,6 +30,11 @@ public class CreatePartyServlet extends HttpServlet{
         party.generateCodeParty();
         party.setDateStart(req.getParameter("data_start_party") + " " + req.getParameter("time_start_party"));
         party.setDateEnd(req.getParameter("data_end_party") + " " + req.getParameter("time_end_party"));
+        try {
+            party.createInDataBase();
+        } catch (SQLException | URISyntaxException e) {
+            e.printStackTrace();
+        }
 
         resp.setContentType("application/json");
         HashMap<String, String> map;
