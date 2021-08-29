@@ -18,7 +18,8 @@ public class DataBase {
         statement = connection.createStatement();
     }
 
-    public void checkTableParties() throws SQLException {
+    public void checkTableParties() throws SQLException, URISyntaxException {
+        connect();
         String createDatabase = "CREATE TABLE IF NOT EXISTS public.Parties" +
                 "(" +
                 "PartyID serial PRIMARY KEY," +
@@ -28,13 +29,16 @@ public class DataBase {
                 "DateEndParty TEXT NOT NULL" +
                 ")";
         statement.executeUpdate(createDatabase);
+        disconnect();
     }
 
-    public void createParty(String nameParty, String codeParty, String startTimeParty, String endTimeParty) throws SQLException {
+    public void createParty(String nameParty, String codeParty, String startTimeParty, String endTimeParty) throws SQLException, URISyntaxException {
         checkTableParties();
+        connect();
         String insertParty = String.format("INSERT INTO public.Parties" +
                 " (PartyID, NameParty, CodeParty, DateStartParty, DateEndParty) VALUES (%d, %s, %s, %s, %s)", 1, nameParty, codeParty, startTimeParty, endTimeParty);
         statement.executeUpdate(insertParty);
+        disconnect();
     }
 
     public void disconnect() throws SQLException {

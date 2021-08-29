@@ -54,8 +54,6 @@ public class Party {
 
     public void createInDataBase() throws SQLException, URISyntaxException {
         DataBase dataBase = new DataBase();
-        dataBase.connect();
         dataBase.createParty(nameParty, codeParty, dateStart, dateEnd);
-        dataBase.disconnect();
     }
 }
