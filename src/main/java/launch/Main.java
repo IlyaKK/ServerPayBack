@@ -12,7 +12,7 @@ import java.io.File;
 public class Main {
 
     public static void main(String[] args) throws Exception {
-        String webappDirLocation = "src/main/payback/";
+        String webappDirLocation = "src/main/webapp/";
         Tomcat tomcat = new Tomcat();
 
         //The port that we should run on can be set into an environment variable

@@ -1,1 +1,1 @@
-web: sh target/bin/payback
+web: sh target/bin/webapp
