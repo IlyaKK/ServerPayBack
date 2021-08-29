@@ -25,8 +25,8 @@ public class DataBase {
                 "PartyID serial PRIMARY KEY," +
                 "NameParty TEXT NOT NULL," +
                 "CodeParty TEXT NOT NULL," +
-                "DateStartParty timestamp [ ( p) ] [ without timezone ]," +
-                "DateEndParty timestamp [ ( p) ] [ without timezone ]" +
+                "DateStartParty timestamp," +
+                "DateEndParty timestamp" +
                 ")";
         statement.executeUpdate(createDatabase);
         disconnect();
