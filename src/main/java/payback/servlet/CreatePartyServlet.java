@@ -21,7 +21,7 @@ import static payback.Log.parametersLogger;
         name = "CreateParty",
         urlPatterns = {"/createParty"}
 )
-public class CreatePartyServlet extends HttpServlet{
+public class CreatePartyServlet extends HttpServlet {
     Party party = new Party();
 
 
@@ -33,7 +33,7 @@ public class CreatePartyServlet extends HttpServlet{
 
         try {
             JSONObject jsonRequest = new JSONObject(request.getParameter("TAG"));//from url in app
-            System.out.println(jsonRequest);
+            LOGGER.info(String.valueOf(jsonRequest));
             party.setNameParty(jsonRequest.getString("name_party"));
             party.setDateStart(jsonRequest.getString("data_start"));
             party.setDateEnd(jsonRequest.getString("data_end"));

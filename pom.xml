@@ -13,7 +13,6 @@
         <maven.compiler.target>11</maven.compiler.target>
         <java.version>1.8</java.version>
         <tomcat.version>8.5.23</tomcat.version>
-        <tomcat.util.http.parser.HttpParser.requestTargetAllow>[]|{}^""''</tomcat.util.http.parser.HttpParser.requestTargetAllow>
     </properties>
 
     <dependencies>
@@ -30,21 +29,6 @@
         <dependency>
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-jasper</artifactId>
-            <version>${tomcat.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tomcat</groupId>
-            <artifactId>tomcat-jasper</artifactId>
-            <version>${tomcat.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tomcat</groupId>
-            <artifactId>tomcat-jasper-el</artifactId>
-            <version>${tomcat.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tomcat</groupId>
-            <artifactId>tomcat-jsp-api</artifactId>
             <version>${tomcat.version}</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.json/json -->
@@ -74,7 +58,9 @@
                     <execution>
                         <id>copy-dependencies</id>
                         <phase>package</phase>
-                        <goals><goal>copy-dependencies</goal></goals>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
                     </execution>
                 </executions>
             </plugin>
