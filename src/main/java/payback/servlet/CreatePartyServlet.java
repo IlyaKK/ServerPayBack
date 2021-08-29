@@ -29,7 +29,7 @@ public class CreatePartyServlet extends HttpServlet {
         //parametersLogger();
 
         System.out.println("In do Get");
-        response.setContentType("application/json");
+        response.setContentType("application/json; charset=UTF-8");
 
         try {
             System.out.println(String.valueOf(request.getParameter("TAG")));
