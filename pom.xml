@@ -88,7 +88,7 @@
                     <programs>
                         <program>
                             <mainClass>launch.Main</mainClass>
-                            <name>webapp</name>
+                            <name>payback</name>
                         </program>
                     </programs>
                 </configuration>
