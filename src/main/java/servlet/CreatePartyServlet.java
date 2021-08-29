@@ -1,5 +1,6 @@
 package servlet;
 
+import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -9,7 +10,7 @@ import java.io.IOException;
 
 @WebServlet(
         name = "MyServlet",
-        urlPatterns = {"/hello"}
+        urlPatterns = {"/party_create"}
 )
 public class CreatePartyServlet extends HttpServlet {
 
@@ -20,6 +21,11 @@ public class CreatePartyServlet extends HttpServlet {
         out.write("hello heroku".getBytes());
         out.flush();
         out.close();
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        doGet(req, resp);
     }
 }
 
