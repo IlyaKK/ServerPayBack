@@ -21,6 +21,7 @@ public class CreatePartyServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
+        req.setCharacterEncoding("UTF-8");
         String request = req.getParameter("TAG");
         JSONObject json = new JSONObject(request);
         party = new Party();
