@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
 
+
+
 @WebServlet(
         name = "MyServlet",
         urlPatterns = {"/party_create"}
