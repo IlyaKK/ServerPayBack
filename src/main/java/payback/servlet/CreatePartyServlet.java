@@ -32,6 +32,7 @@ public class CreatePartyServlet extends HttpServlet {
         response.setContentType("application/json");
 
         try {
+            LOGGER.info(String.valueOf(request.getParameter("TAG")));
             JSONObject jsonRequest = new JSONObject(request.getParameter("TAG"));//from url in app
             LOGGER.info(String.valueOf(jsonRequest));
             party.setNameParty(jsonRequest.getString("name_party"));
