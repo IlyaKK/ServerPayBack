@@ -1,4 +1,4 @@
-package payback.servlet;
+package servlet;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -13,9 +13,6 @@ import java.io.PrintWriter;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.HashMap;
-
-import static payback.Log.LOGGER;
-import static payback.Log.parametersLogger;
 
 @WebServlet(
         name = "CreateParty",
