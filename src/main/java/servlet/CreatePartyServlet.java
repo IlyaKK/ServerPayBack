@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import payback.Party;
 
+import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +19,7 @@ import java.util.HashMap;
 public class CreatePartyServlet extends HttpServlet {
     Party party = new Party();
 
-
+    @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         //parametersLogger();
 
@@ -49,5 +50,10 @@ public class CreatePartyServlet extends HttpServlet {
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        doGet(req, resp);
     }
 }
