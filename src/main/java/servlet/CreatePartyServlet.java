@@ -14,10 +14,7 @@ import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.HashMap;
 
-@WebServlet(
-        name = "CreateParty",
-        urlPatterns = {"/createparty"}
-)
+@WebServlet("/createparty")
 public class CreatePartyServlet extends HttpServlet {
     Party party = new Party();
 
@@ -26,12 +23,10 @@ public class CreatePartyServlet extends HttpServlet {
         //parametersLogger();
 
         System.out.println("In do Get");
-        response.setContentType("application/json");
-
         try {
-            System.out.println(String.valueOf(request.getParameter("TAG")));
+            System.out.println(request.getParameter("TAG"));
             JSONObject jsonRequest = new JSONObject(request.getParameter("TAG"));//from url in app
-            System.out.println(String.valueOf(jsonRequest));
+            System.out.println(jsonRequest);
             party.setNameParty(jsonRequest.getString("name_party"));
             party.setDateStart(jsonRequest.getString("data_start"));
             party.setDateEnd(jsonRequest.getString("data_end"));
@@ -45,17 +40,14 @@ public class CreatePartyServlet extends HttpServlet {
             map.put("code_party", party.getCodeParty());
 
             JSONObject replyJSON = new JSONObject(map);
-
+            response.setContentType("application/json");
             PrintWriter printW = response.getWriter();
             printW.println(replyJSON);
             party.createInDataBase();
-
-        } catch (JSONException | SQLException | URISyntaxException e) {
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        } catch (URISyntaxException e) {
             e.printStackTrace();
         }
-    }
-
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {//essentioall dummy
-        doGet(request, response);
     }
 }
