@@ -18,21 +18,16 @@ import java.util.HashMap;
         name = "MyServlet",
         urlPatterns = {"/party_create"}
 )
-public class CreatePartyServlet extends HttpServlet {
+public class CreatePartyServlet extends HttpServlet{
     Party party;
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws IOException {
-        req.setCharacterEncoding("UTF-8");
-        String request = req.getParameter("TAG");
-        JSONObject json = new JSONObject(request);
         party = new Party();
-        party.setNameParty((String)json.getJSONArray("name_party").get(0));
+        party.setNameParty(req.getParameter("name_party"));
         party.generateCodeParty();
-        JSONArray jsonDataStart = json.getJSONArray("data_start");
-        party.setDateStart(jsonDataStart.get(0) + " " + jsonDataStart.get(1));
-        JSONArray jsonDataEnd = json.getJSONArray("data_end");
-        party.setDateEnd(jsonDataEnd.get(0) + " " + jsonDataEnd.get(1));
+        party.setDateStart(req.getParameter("data_start_party") + " " + req.getParameter("time_start_party"));
+        party.setDateEnd(req.getParameter("data_end_party") + " " + req.getParameter("time_end_party"));
 
         resp.setContentType("application/json");
         HashMap<String, String> map;
