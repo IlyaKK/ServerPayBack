@@ -33,7 +33,7 @@ public class DataBase {
     public void createParty(String nameParty, String codeParty, String startTimeParty, String endTimeParty) throws SQLException {
         checkTableParties();
         String insertParty = String.format("INSERT INTO public.parties" +
-                "VALUES (%d, %s, %s, %s, %s)", 1, nameParty, codeParty, startTimeParty, endTimeParty);
+                " (partyid, nameparty, codeparty, datestartparty, dateendparty) VALUES (%d, %s, %s, %s, %s)", 1, nameParty, codeParty, startTimeParty, endTimeParty);
         statement.executeUpdate(insertParty);
     }
 
