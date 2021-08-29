@@ -1,6 +1,5 @@
 package servlet;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 import payback.Party;
 
@@ -24,32 +23,26 @@ public class CreatePartyServlet extends HttpServlet {
         //parametersLogger();
 
         System.out.println("In do Get");
-        try {
-            System.out.println(request.getParameter("TAG"));
-            JSONObject jsonRequest = new JSONObject(request.getParameter("TAG"));//from url in app
-            System.out.println(jsonRequest);
+        System.out.println(request.getParameter("TAG"));
+        //JSONObject jsonRequest = new JSONObject(request.getParameter("TAG"));//from url in app
+            /*System.out.println(jsonRequest);
             party.setNameParty(jsonRequest.getString("name_party"));
             party.setDateStart(jsonRequest.getString("data_start"));
             party.setDateEnd(jsonRequest.getString("data_end"));
-            party.generateCodeParty();
+            party.generateCodeParty();*/
 
-            System.out.println("PartyName: " + party.getNameParty());
+        System.out.println("PartyName: " + party.getNameParty());
 
-            //send back to app
-            HashMap<String, String> map;
-            map = new HashMap<>();
-            map.put("code_party", party.getCodeParty());
+        //send back to app
+        HashMap<String, String> map;
+        map = new HashMap<>();
+        map.put("code_party", party.getCodeParty());
 
-            JSONObject replyJSON = new JSONObject(map);
-            response.setContentType("application/json");
-            PrintWriter printW = response.getWriter();
-            printW.println(replyJSON);
-            party.createInDataBase();
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+        JSONObject replyJSON = new JSONObject(map);
+        response.setContentType("application/json");
+        PrintWriter printW = response.getWriter();
+        printW.println(replyJSON);
+        //party.createInDataBase();
     }
 
     @Override
