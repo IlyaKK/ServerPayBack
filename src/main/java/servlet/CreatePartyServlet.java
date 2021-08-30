@@ -44,7 +44,7 @@ public class CreatePartyServlet extends HttpServlet{
         map = new HashMap<>();
         map.put("code_party",party.getCodeParty());
         JSONObject replyJSON = new JSONObject(map);
-        PrintWriter printW = null;
+        PrintWriter printW;
         try {
             printW = resp.getWriter();
             printW.println(replyJSON);
@@ -55,7 +55,7 @@ public class CreatePartyServlet extends HttpServlet{
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) {
         doGet(req, resp);
     }
 }
