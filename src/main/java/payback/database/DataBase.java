@@ -3,13 +3,14 @@ package payback.database;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.*;
-
+import static payback.Log.LOGGER;
 public class DataBase {
     private static Connection connection;
     private static Statement statement;
     private static ResultSet resultSet;
 
     public void connect() throws SQLException, URISyntaxException {
+        LOGGER.info("Подключение к базе данных");
         URI dbUri = new URI("postgres://gyqdavjdmxqlmm:f356e0e1aa2bd94f9487778199133bc0de1efe1c5313b7700d4f4374b33e4100@ec2-54-154-101-45.eu-west-1.compute.amazonaws.com:5432/dbm0srl4egvboe");
         String username = dbUri.getUserInfo().split(":")[0];
         String password = dbUri.getUserInfo().split(":")[1];
@@ -20,6 +21,7 @@ public class DataBase {
 
     public void checkTableParties() throws SQLException, URISyntaxException {
         connect();
+        LOGGER.info("Проверка существования таблицы public.Parties");
         String createDatabase = "CREATE TABLE IF NOT EXISTS public.Parties" +
                 "(" +
                 "PartyID serial PRIMARY KEY," +
@@ -35,6 +37,7 @@ public class DataBase {
     public void createParty(String nameParty, String codeParty, String startTimeParty, String endTimeParty) throws SQLException, URISyntaxException {
         checkTableParties();
         connect();
+        LOGGER.info(String.format("Создание мероприятия %s в базе данных", nameParty));
         String insertParty = String.format("INSERT INTO public.Parties" +
                 " (NameParty, CodeParty, DateStartParty, DateEndParty) VALUES ('%s', '%s', '%s', '%s')", nameParty, codeParty, startTimeParty, endTimeParty);
         statement.executeUpdate(insertParty);
@@ -42,6 +45,7 @@ public class DataBase {
     }
 
     public void disconnect() throws SQLException {
+        LOGGER.info("Отключение от базы данных");
         statement.close();
         connection.close();
     }
