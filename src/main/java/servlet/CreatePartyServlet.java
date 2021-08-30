@@ -25,7 +25,7 @@ public class CreatePartyServlet extends HttpServlet{
     private final Log log = new Log();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
-        LOGGER.info("Receive http req: " + req);
+        LOGGER.info("Receive http req: " + req.getPathInfo());
         party = new Party();
         party.setNameParty(req.getParameter("name_party"));
         party.generateCodeParty();

@@ -56,4 +56,14 @@ public class Party {
         DataBase dataBase = new DataBase();
         dataBase.createParty(nameParty, codeParty, dateStart, dateEnd);
     }
+
+    @Override
+    public String toString() {
+        return "Party{" +
+                "nameParty='" + nameParty + '\'' +
+                ", dateStart='" + dateStart + '\'' +
+                ", dateEnd='" + dateEnd + '\'' +
+                ", codeParty='" + codeParty + '\'' +
+                '}';
+    }
 }
