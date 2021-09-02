@@ -10,8 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -32,7 +31,7 @@ public class CreateUserServlet extends HttpServlet {
         LOGGER.info("Receive http req: " + req.getRequestURI());
         user = new User();
         party = new Party();
-        JSONObject jsonRequest = new JSONObject(req.getParameter("user"));
+        JSONObject jsonRequest = new JSONObject(getBody(req));
         user.setName(jsonRequest.getString("name"));
         user.setPhone(jsonRequest.getString("phone"));
         user.setBank(jsonRequest.getString("bank"));
@@ -65,6 +64,41 @@ public class CreateUserServlet extends HttpServlet {
             e.printStackTrace();
         }
 
+    }
+
+    public static String getBody(HttpServletRequest request)  {
+
+        String body = null;
+        StringBuilder stringBuilder = new StringBuilder();
+        BufferedReader bufferedReader = null;
+
+        try {
+            InputStream inputStream = request.getInputStream();
+            if (inputStream != null) {
+                bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                char[] charBuffer = new char[128];
+                int bytesRead = -1;
+                while ((bytesRead = bufferedReader.read(charBuffer)) > 0) {
+                    stringBuilder.append(charBuffer, 0, bytesRead);
+                }
+            } else {
+                stringBuilder.append("");
+            }
+        } catch (IOException ex) {
+            // throw ex;
+            return "";
+        } finally {
+            if (bufferedReader != null) {
+                try {
+                    bufferedReader.close();
+                } catch (IOException ex) {
+
+                }
+            }
+        }
+
+        body = stringBuilder.toString();
+        return body;
     }
 
     @Override
