@@ -1,5 +1,6 @@
 package payback.database;
 
+import payback.Party;
 import payback.User;
 
 import java.net.URI;
@@ -26,26 +27,12 @@ public class DataBase {
         LOGGER.info("Проверка существования таблицы public.Parties");
         String createDatabase = "CREATE TABLE IF NOT EXISTS public.Parties" +
                 "(" +
-                "PartyID serial PRIMARY KEY," +
-                "NameParty varchar(60) NOT NULL," +
-                "CodeParty TEXT NOT NULL," +
+                "PartyID serial," +
+                "NameParty text NOT NULL," +
+                "CodeParty text," +
                 "DateStartParty timestamp," +
-                "DateEndParty timestamp" +
-                ")";
-        statement.executeUpdate(createDatabase);
-        disconnect();
-    }
-
-    private void checkTableUsers() throws SQLException, URISyntaxException {
-        connect();
-        LOGGER.info("Проверка существования таблицы public.Users");
-        String createDatabase = "CREATE TABLE IF NOT EXISTS public.users" +
-                "(" +
-                "user_id serial PRIMARY KEY," +
-                "name text NOT NULL," +
-                "CodeParty text NOT NULL," +
-                "DateStartParty timestamp," +
-                "DateEndParty timestamp" +
+                "DateEndParty timestamp," +
+                "PRIMARY KEY (PartyID, CodeParty)" +
                 ")";
         statement.executeUpdate(createDatabase);
         disconnect();
@@ -56,9 +43,37 @@ public class DataBase {
         connect();
         LOGGER.info(String.format("Создание мероприятия %s в базе данных", nameParty));
         String insertParty = String.format("INSERT INTO public.Parties" +
-                " (NameParty, CodeParty, DateStartParty, DateEndParty) VALUES ('%s', '%s', '%s', '%s')", nameParty, codeParty, startTimeParty, endTimeParty);
+                " (NameParty, CodeParty, DateStartParty, DateEndParty) VALUES ('$$%s$$', '%s', '%s', '%s')", nameParty, codeParty, startTimeParty, endTimeParty);
         statement.executeUpdate(insertParty);
         disconnect();
+    }
+
+    private void checkTableUsers() throws SQLException, URISyntaxException {
+        connect();
+        LOGGER.info("Проверка существования таблицы public.users");
+        String createDatabase = "CREATE TABLE IF NOT EXISTS public.users" +
+                "(" +
+                "user_id serial PRIMARY KEY," +
+                "CodeParty text references public.parties(CodeParty) ON DELETE CASCADE," +
+                "name text NOT NULL," +
+                "bank text," +
+                "phone text," +
+                "alcohol boolean" +
+                ")";
+        statement.executeUpdate(createDatabase);
+        disconnect();
+    }
+
+    public int createUser(User user) throws SQLException, URISyntaxException {
+        checkTableUsers();
+        connect();
+        LOGGER.info(String.format("Создание пользователя %s в базе данных", user.getName()));
+        String insertUser = String.format("INSERT INTO public.users" +
+                " (CodeParty, name, bank, phone, alcohol) VALUES ('%s', '%s', '%s', '%s', %b) RETURNING user_id", user.getCodeParty(), user.getName(),
+                user.getBank(), user.getPhone(), user.getAlcohol());
+        int idUser = statement.executeUpdate(insertUser);
+        disconnect();
+        return idUser;
     }
 
     public void disconnect() throws SQLException {
@@ -67,8 +82,12 @@ public class DataBase {
         connection.close();
     }
 
-    public boolean createUser(User user) throws SQLException, URISyntaxException {
-        checkTableUsers();
-        return false;
+    public void getParty(Party party) throws SQLException, URISyntaxException {
+        connect();
+        resultSet = statement.executeQuery(String.format("SELECT NameParty, DateStartParty, DateEndParty FROM public.parties WHERE CodeParty = '%s'", party.getCodeParty()));
+        party.setNameParty(resultSet.getString("NameParty"));
+        party.setDateStart(resultSet.getString("DateStartParty"));
+        party.setDateEnd(resultSet.getString("DateEndParty"));
+        disconnect();
     }
 }

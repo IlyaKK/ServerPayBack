@@ -23,6 +23,7 @@ import static payback.Log.LOGGER;
 public class CreatePartyServlet extends HttpServlet{
     private Party party;
     private final Log log = new Log();
+    private HashMap<String, String> map = new HashMap<>();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         LOGGER.info("Receive http req: " + req.getRequestURI());
@@ -34,15 +35,13 @@ public class CreatePartyServlet extends HttpServlet{
         LOGGER.info("Создался объект Party: " + party);
         try {
             party.createInDataBase();
+            map.put("code_party",party.getCodeParty());
         } catch (SQLException | URISyntaxException e) {
+            map.put("code_party", "error");
             LOGGER.warning("Ошибка создания мероприятия в базе данных");
             e.printStackTrace();
         }
-
         resp.setContentType("application/json");
-        HashMap<String, String> map;
-        map = new HashMap<>();
-        map.put("code_party",party.getCodeParty());
         JSONObject replyJSON = new JSONObject(map);
         PrintWriter printW;
         try {

@@ -57,6 +57,11 @@ public class Party {
         dataBase.createParty(nameParty, codeParty, dateStart, dateEnd);
     }
 
+    public void selectDataBase() throws SQLException, URISyntaxException {
+        DataBase dataBase = new DataBase();
+        dataBase.getParty(this);
+    }
+
     @Override
     public String toString() {
         return "Party{" +

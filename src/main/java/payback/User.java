@@ -72,7 +72,7 @@ public class User {
                 '}';
     }
 
-    public boolean createInDataBase() throws SQLException, URISyntaxException {
+    public int createInDataBase() throws URISyntaxException, SQLException {
         DataBase dataBase = new DataBase();
         return dataBase.createUser(this);
     }

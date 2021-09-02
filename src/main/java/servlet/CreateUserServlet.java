@@ -2,6 +2,7 @@ package servlet;
 
 import org.json.JSONObject;
 import payback.Log;
+import payback.Party;
 import payback.User;
 
 import javax.servlet.ServletException;
@@ -10,8 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URISyntaxException;
 import java.sql.SQLException;
+import java.util.HashMap;
 
 import static payback.Log.LOGGER;
 
@@ -21,12 +24,14 @@ import static payback.Log.LOGGER;
 )
 public class CreateUserServlet extends HttpServlet {
     private User user;
-    private boolean resultAuthenticate;
+    private Party party;
     private final Log log = new Log();
+    private HashMap<String, String> map = new HashMap<>();
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         LOGGER.info("Receive http req: " + req.getRequestURI());
         user = new User();
+        party = new Party();
         JSONObject jsonRequest = new JSONObject(req.getParameter("user"));
         user.setName(jsonRequest.getString("name"));
         user.setPhone(jsonRequest.getString("phone"));
@@ -35,11 +40,31 @@ public class CreateUserServlet extends HttpServlet {
         user.setAlcohol(jsonRequest.getBoolean("alcohol"));
         LOGGER.info("Создался объект User: " + user);
         try {
-            resultAuthenticate = user.createInDataBase();
-        } catch (SQLException | URISyntaxException e) {
+            user.setIdUser(String.valueOf(user.createInDataBase()));
+            party.setCodeParty(user.getCodeParty());
+            party.selectDataBase();
+            map.put("id_user", user.getIdUser());
+            map.put("name_party",party.getNameParty());
+            map.put("data_start",party.getDateStart().split(" ", 2)[0]);
+            map.put("data_end",party.getDateEnd().split(" ", 2)[0]);
+            map.put("time_start",party.getDateStart().split(" ",2)[1]);
+            map.put("time_end",party.getDateEnd().split(" ",2)[1]);
+        } catch (URISyntaxException | SQLException e) {
+            map.put("id_user", "error");
             LOGGER.warning("Ошибка создания пользователя в базе данных");
             e.printStackTrace();
         }
+        resp.setContentType("application/json");
+        JSONObject replyJSON = new JSONObject(map);
+        PrintWriter printW;
+        try {
+            printW = resp.getWriter();
+            printW.println(replyJSON);
+        } catch (IOException e) {
+            LOGGER.warning("Ошибка при ответе на запрос POST: " + replyJSON);
+            e.printStackTrace();
+        }
+
     }
 
     @Override
