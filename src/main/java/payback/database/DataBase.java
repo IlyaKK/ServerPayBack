@@ -32,7 +32,7 @@ public class DataBase {
                 "CodeParty text," +
                 "DateStartParty timestamp," +
                 "DateEndParty timestamp," +
-                "PRIMARY KEY (PartyID, CodeParty)" +
+                "PRIMARY KEY (CodeParty)" +
                 ")";
         statement.executeUpdate(createDatabase);
         disconnect();
