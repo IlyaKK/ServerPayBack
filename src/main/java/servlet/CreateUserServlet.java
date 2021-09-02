@@ -32,7 +32,7 @@ public class CreateUserServlet extends HttpServlet {
         LOGGER.info("Receive http req: " + req.getRequestURI());
         user = new User();
         party = new Party();
-        JSONObject jsonRequest = new JSONObject(req.getParameter("jsondata"));
+        JSONObject jsonRequest = new JSONObject(req.getParameter("user"));
         user.setName(jsonRequest.getString("name"));
         user.setPhone(jsonRequest.getString("phone"));
         user.setBank(jsonRequest.getString("bank"));
