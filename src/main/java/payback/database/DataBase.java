@@ -53,13 +53,13 @@ public class DataBase {
         LOGGER.info("Проверка существования таблицы public.users");
         String createDatabase = "CREATE TABLE IF NOT EXISTS public.users" +
                 "(" +
-                "user_id serial PRIMARY KEY," +
+                "user_id serial," +
                 "codeparty text references public.parties ON DELETE CASCADE," +
                 "name text NOT NULL," +
                 "bank text," +
                 "phone text," +
                 "alcohol boolean," +
-                "PRIMARY KEY (codeparty)" +
+                "PRIMARY KEY (user_id, codeparty)" +
                 ")";
         statement.executeUpdate(createDatabase);
         disconnect();
