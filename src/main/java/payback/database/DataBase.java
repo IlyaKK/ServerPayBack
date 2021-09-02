@@ -1,5 +1,7 @@
 package payback.database;
 
+import payback.User;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.*;
@@ -19,7 +21,7 @@ public class DataBase {
         statement = connection.createStatement();
     }
 
-    public void checkTableParties() throws SQLException, URISyntaxException {
+    private void checkTableParties() throws SQLException, URISyntaxException {
         connect();
         LOGGER.info("Проверка существования таблицы public.Parties");
         String createDatabase = "CREATE TABLE IF NOT EXISTS public.Parties" +
@@ -27,6 +29,21 @@ public class DataBase {
                 "PartyID serial PRIMARY KEY," +
                 "NameParty varchar(60) NOT NULL," +
                 "CodeParty TEXT NOT NULL," +
+                "DateStartParty timestamp," +
+                "DateEndParty timestamp" +
+                ")";
+        statement.executeUpdate(createDatabase);
+        disconnect();
+    }
+
+    private void checkTableUsers() throws SQLException, URISyntaxException {
+        connect();
+        LOGGER.info("Проверка существования таблицы public.Users");
+        String createDatabase = "CREATE TABLE IF NOT EXISTS public.users" +
+                "(" +
+                "user_id serial PRIMARY KEY," +
+                "name text NOT NULL," +
+                "CodeParty text NOT NULL," +
                 "DateStartParty timestamp," +
                 "DateEndParty timestamp" +
                 ")";
@@ -50,7 +67,8 @@ public class DataBase {
         connection.close();
     }
 
-    public boolean createUser(String codeParty, String nameUser) {
-        return true;
+    public boolean createUser(User user) throws SQLException, URISyntaxException {
+        checkTableUsers();
+        return false;
     }
 }

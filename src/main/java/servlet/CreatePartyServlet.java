@@ -17,7 +17,7 @@ import static payback.Log.LOGGER;
 
 
 @WebServlet(
-        name = "MyServlet",
+        name = "Servlet Create Party",
         urlPatterns = {"/party_create"}
 )
 public class CreatePartyServlet extends HttpServlet{
