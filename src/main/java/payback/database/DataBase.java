@@ -54,7 +54,7 @@ public class DataBase {
         String createDatabase = "CREATE TABLE IF NOT EXISTS public.users" +
                 "(" +
                 "user_id serial PRIMARY KEY," +
-                "codeparty text references public.parties," +
+                "codeparty text references public.parties(codeparty)," +
                 "name text NOT NULL," +
                 "bank text," +
                 "phone text," +
