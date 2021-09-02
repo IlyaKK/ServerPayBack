@@ -66,13 +66,15 @@ public class DataBase {
     }
 
     public int createUser(User user) throws SQLException, URISyntaxException {
+        int idUser;
         checkTableUsers();
         connect();
         LOGGER.info(String.format("Создание пользователя %s в базе данных", user.getName()));
         String insertUser = String.format("INSERT INTO public.users" +
                 " (CodeParty, name, bank, phone, alcohol) VALUES ('%s', '%s', '%s', '%s', %b) RETURNING user_id", user.getCodeParty(), user.getName(),
                 user.getBank(), user.getPhone(), user.getAlcohol());
-        int idUser = statement.executeUpdate(insertUser);
+        resultSet = statement.executeQuery(insertUser);
+        idUser = resultSet.getInt("user_id");
         disconnect();
         return idUser;
     }
