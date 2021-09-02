@@ -54,11 +54,12 @@ public class DataBase {
         String createDatabase = "CREATE TABLE IF NOT EXISTS public.users" +
                 "(" +
                 "user_id serial PRIMARY KEY," +
-                "codeparty text references public.parties(codeparty)," +
+                "codeparty text references public.parties ON DELETE CASCADE," +
                 "name text NOT NULL," +
                 "bank text," +
                 "phone text," +
-                "alcohol boolean" +
+                "alcohol boolean," +
+                "PRIMARY KEY (codeparty)" +
                 ")";
         statement.executeUpdate(createDatabase);
         disconnect();
