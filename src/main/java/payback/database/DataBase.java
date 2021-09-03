@@ -93,9 +93,11 @@ public class DataBase {
         connect();
         LOGGER.info("Взять из public.parties данные мероприятия ");
         resultSet = statement.executeQuery(String.format("SELECT nameparty, datestartparty, dateendparty FROM public.parties WHERE codeparty = '%s'", party.getCodeParty()));
-        party.setNameParty(resultSet.getString("nameparty"));
-        party.setDateStart(resultSet.getString("datestartparty"));
-        party.setDateEnd(resultSet.getString("dateendparty"));
+        while (resultSet.next()){
+            party.setNameParty(resultSet.getString("nameparty"));
+            party.setDateStart(resultSet.getString("datestartparty"));
+            party.setDateEnd(resultSet.getString("dateendparty"));
+        }
         disconnect();
     }
 }
