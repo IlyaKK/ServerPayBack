@@ -24,15 +24,13 @@ import static payback.Log.LOGGER;
         urlPatterns = {"/log_in_party"}
 )
 public class CreateUserServlet extends HttpServlet {
-    private User user;
-    private Party party;
-    private HashMap<String, String> map = new HashMap<>();
+    private final HashMap<String, String> map = new HashMap<>();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         LOGGER.info("Receive http req: " + req.getRequestURI());
-        user = new User();
-        party = new Party();
+        User user = new User();
+        Party party = new Party();
         JSONObject jsonRequest = new JSONObject(getBody(req));
         user.setName(jsonRequest.getString("name"));
         user.setPhone(jsonRequest.getString("phone"));
