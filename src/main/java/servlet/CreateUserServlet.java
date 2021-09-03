@@ -44,10 +44,17 @@ public class CreateUserServlet extends HttpServlet {
             party.selectDataBase();
             map.put("id_user", user.getIdUser());
             map.put("name_party", party.getNameParty());
-            map.put("data_start", party.getDateStart().split(" ", 2)[0]);
-            map.put("data_end", party.getDateEnd().split(" ", 2)[0]);
-            map.put("time_start", party.getDateStart().split(" ", 2)[1]);
-            map.put("time_end", party.getDateEnd().split(" ", 2)[1]);
+            if(party.getDateStart() == null || party.getDateEnd() == null){
+                map.put("data_start", null);
+                map.put("data_end", null);
+                map.put("time_start", null);
+                map.put("time_end", null);
+            }else {
+                map.put("data_start", party.getDateStart().split(" ", 2)[0]);
+                map.put("data_end", party.getDateEnd().split(" ", 2)[0]);
+                map.put("time_start", party.getDateStart().split(" ", 2)[1]);
+                map.put("time_end", party.getDateEnd().split(" ", 2)[1]);
+            }
         } catch (URISyntaxException | SQLException e) {
             map.put("id_user", "error");
             LOGGER.warning("Ошибка создания пользователя в базе данных");
