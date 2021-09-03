@@ -7,7 +7,7 @@ import java.util.logging.*;
 
 public class Log {
     public static final Logger LOGGER = Logger.getLogger("");
-    public Log() {
+    static {
         DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
         try {
             Handler handler;
