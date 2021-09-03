@@ -74,7 +74,8 @@ public class DataBase {
                 " (CodeParty, name, bank, phone, alcohol) VALUES ('%s', '%s', '%s', '%s', %b) RETURNING user_id", user.getCodeParty(), user.getName(),
                 user.getBank(), user.getPhone(), user.getAlcohol());
         resultSet = statement.executeQuery(insertUser);
-        idUser = resultSet.getInt("user_id");
+        resultSet.next();
+        idUser = resultSet.getInt(1);
         disconnect();
         return idUser;
     }
