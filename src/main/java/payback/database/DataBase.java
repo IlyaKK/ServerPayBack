@@ -73,9 +73,11 @@ public class DataBase {
         String insertUser = String.format("INSERT INTO public.users" +
                 " (CodeParty, name, bank, phone, alcohol) VALUES ('%s', '%s', '%s', '%s', %b) RETURNING user_id", user.getCodeParty(), user.getName(),
                 user.getBank(), user.getPhone(), user.getAlcohol());
-        resultSet = statement.executeQuery(insertUser);
-        resultSet.next();
-        idUser = resultSet.getInt(1);
+        PreparedStatement stmt = connection.prepareStatement(insertUser);
+        stmt.execute();
+        ResultSet last_updated_person = stmt.getResultSet();
+        last_updated_person.next();
+        idUser = last_updated_person.getInt(1);
         disconnect();
         return idUser;
     }
