@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.HashMap;
 
@@ -67,8 +68,17 @@ public class CreateUserServlet extends HttpServlet {
     }
 
     public static String getBody(HttpServletRequest request)  {
-
-        String body = null;
+        StringBuilder stringBuilder = new StringBuilder();
+        try(BufferedReader br = new BufferedReader(
+                new InputStreamReader(request.getInputStream(), StandardCharsets.UTF_8))) {
+            String responseLine;
+            while ((responseLine = br.readLine()) != null) {
+                stringBuilder.append(responseLine.trim());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        /*String body;
         StringBuilder stringBuilder = new StringBuilder();
         BufferedReader bufferedReader = null;
 
@@ -91,18 +101,18 @@ public class CreateUserServlet extends HttpServlet {
             if (bufferedReader != null) {
                 try {
                     bufferedReader.close();
-                } catch (IOException ex) {
+                } catch (IOException ignored) {
 
                 }
             }
         }
 
-        body = stringBuilder.toString();
-        return body;
+        body = stringBuilder.toString();*/
+        return stringBuilder.toString();
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         doGet(req, resp);
     }
 }

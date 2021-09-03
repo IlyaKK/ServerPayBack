@@ -71,13 +71,14 @@ public class DataBase {
         connect();
         LOGGER.info(String.format("Создание пользователя %s в базе данных", user.getName()));
         String insertUser = String.format("INSERT INTO public.users" +
-                " (CodeParty, name, bank, phone, alcohol) VALUES ('%s', '%s', '%s', '%s', %b) RETURNING user_id", user.getCodeParty(), user.getName(),
+                " (codeparty, name, bank, phone, alcohol) VALUES ('%s', '%s', '%s', '%s', %b) RETURNING user_id", user.getCodeParty(), user.getName(),
                 user.getBank(), user.getPhone(), user.getAlcohol());
         PreparedStatement stmt = connection.prepareStatement(insertUser);
         stmt.execute();
         ResultSet last_updated_person = stmt.getResultSet();
         last_updated_person.next();
         idUser = last_updated_person.getInt(1);
+        LOGGER.info(String.format("ID пользователя %s = %d", user.getName(), idUser));
         disconnect();
         return idUser;
     }
@@ -90,10 +91,11 @@ public class DataBase {
 
     public void getParty(Party party) throws SQLException, URISyntaxException {
         connect();
-        resultSet = statement.executeQuery(String.format("SELECT NameParty, DateStartParty, DateEndParty FROM public.parties WHERE CodeParty = '%s'", party.getCodeParty()));
-        party.setNameParty(resultSet.getString("NameParty"));
-        party.setDateStart(resultSet.getString("DateStartParty"));
-        party.setDateEnd(resultSet.getString("DateEndParty"));
+        LOGGER.info("Взять из public.parties данные мероприятия ");
+        resultSet = statement.executeQuery(String.format("SELECT nameparty, datestartparty, dateendparty FROM public.parties WHERE codeparty = '%s'", party.getCodeParty()));
+        party.setNameParty(resultSet.getString("nameparty"));
+        party.setDateStart(resultSet.getString("datestartparty"));
+        party.setDateEnd(resultSet.getString("dateendparty"));
         disconnect();
     }
 }
