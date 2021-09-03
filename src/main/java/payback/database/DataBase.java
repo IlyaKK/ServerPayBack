@@ -30,8 +30,8 @@ public class DataBase {
                 "PartyID serial," +
                 "NameParty text NOT NULL," +
                 "CodeParty text," +
-                "DateStartParty timestamp DEFAULT 0," +
-                "DateEndParty timestamp DEFAULT 0," +
+                "DateStartParty timestamp DEFAULT '0 0'," +
+                "DateEndParty timestamp DEFAULT '0 0'," +
                 "PRIMARY KEY (CodeParty)" +
                 ")";
         statement.executeUpdate(createDatabase);
