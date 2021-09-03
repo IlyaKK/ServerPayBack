@@ -42,8 +42,16 @@ public class DataBase {
         checkTableParties();
         connect();
         LOGGER.info(String.format("Создание мероприятия %s в базе данных", nameParty));
-        String insertParty = String.format("INSERT INTO public.Parties" +
-                " (NameParty, CodeParty, DateStartParty, DateEndParty) VALUES ('%s', '%s', '%s', '%s')", nameParty, codeParty, startTimeParty, endTimeParty);
+        String insertParty;
+        if (startTimeParty == null ){
+            insertParty = String.format("INSERT INTO public.Parties" +
+                            " (NameParty, CodeParty) VALUES ('%s', '%s')", nameParty,
+                    codeParty);
+        }else {
+            insertParty = String.format("INSERT INTO public.Parties" +
+                            " (NameParty, CodeParty, DateStartParty, DateEndParty) VALUES ('%s', '%s', '%s', '%s')", nameParty,
+                    codeParty, startTimeParty, endTimeParty);
+        }
         statement.executeUpdate(insertParty);
         disconnect();
     }
