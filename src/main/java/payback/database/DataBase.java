@@ -103,9 +103,13 @@ public class DataBase {
         resultSet = statement.executeQuery(String.format("SELECT nameparty, datestartparty, dateendparty FROM public.parties WHERE codeparty = '%s'", party.getCodeParty()));
         while (resultSet.next()){
             party.setNameParty(resultSet.getString("nameparty"));
+            LOGGER.info(String.format("Получили имя мероприятия %s", party.getNameParty()));
             party.setDateStart(resultSet.getString("datestartparty"));
+            LOGGER.info(String.format("Получили дату начала %s", party.getDateStart()));
             party.setDateEnd(resultSet.getString("dateendparty"));
+            LOGGER.info(String.format("Получили дату окончания %s", party.getDateEnd()));
         }
+
         disconnect();
     }
 }
