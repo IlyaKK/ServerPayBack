@@ -45,8 +45,7 @@ public class DataBase {
         String insertParty;
         if(nameParty.equals("null")){
             insertParty = String.format("INSERT INTO public.Parties" +
-                            " (NameParty, CodeParty) VALUES ('%s', '%s')", null,
-                    codeParty);
+                            " (CodeParty) VALUES ('%s')", codeParty);
         }else if (startTimeParty.equals("null null") || endTimeParty.equals("null null")){
             insertParty = String.format("INSERT INTO public.Parties" +
                             " (NameParty, CodeParty) VALUES ('%s', '%s')", nameParty,
