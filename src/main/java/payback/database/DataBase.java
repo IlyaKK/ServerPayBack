@@ -43,7 +43,11 @@ public class DataBase {
         connect();
         LOGGER.info(String.format("Создание мероприятия %s в базе данных", nameParty));
         String insertParty;
-        if (startTimeParty.equals("null null") || endTimeParty.equals("null null")){
+        if(nameParty.equals("null")){
+            insertParty = String.format("INSERT INTO public.Parties" +
+                            " (NameParty, CodeParty) VALUES ('%s', '%s')", null,
+                    codeParty);
+        }else if (startTimeParty.equals("null null") || endTimeParty.equals("null null")){
             insertParty = String.format("INSERT INTO public.Parties" +
                             " (NameParty, CodeParty) VALUES ('%s', '%s')", nameParty,
                     codeParty);
