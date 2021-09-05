@@ -30,8 +30,8 @@ public class DataBase {
                 "PartyID serial," +
                 "NameParty text NOT NULL," +
                 "CodeParty text," +
-                "DateStartParty timestamp DEFAULT 0 0," +
-                "DateEndParty timestamp DEFAULT 0 0," +
+                "DateStartParty timestamp DEFAULT '0 0'," +
+                "DateEndParty timestamp DEFAULT '0 0'," +
                 "PRIMARY KEY (CodeParty)" +
                 ")";
         statement.executeUpdate(createDatabase);
@@ -42,8 +42,16 @@ public class DataBase {
         checkTableParties();
         connect();
         LOGGER.info(String.format("Создание мероприятия %s в базе данных", nameParty));
-        String insertParty = String.format("INSERT INTO public.Parties" +
-                " (NameParty, CodeParty, DateStartParty, DateEndParty) VALUES ('%s', '%s', '%s', '%s')", nameParty, codeParty, startTimeParty, endTimeParty);
+        String insertParty;
+        if (startTimeParty.equals("null null") || endTimeParty.equals("null null")){
+            insertParty = String.format("INSERT INTO public.Parties" +
+                            " (NameParty, CodeParty) VALUES ('%s', '%s')", nameParty,
+                    codeParty);
+        }else {
+            insertParty = String.format("INSERT INTO public.Parties" +
+                            " (NameParty, CodeParty, DateStartParty, DateEndParty) VALUES ('%s', '%s', '%s', '%s')", nameParty,
+                    codeParty, startTimeParty, endTimeParty);
+        }
         statement.executeUpdate(insertParty);
         disconnect();
     }
@@ -71,13 +79,14 @@ public class DataBase {
         connect();
         LOGGER.info(String.format("Создание пользователя %s в базе данных", user.getName()));
         String insertUser = String.format("INSERT INTO public.users" +
-                " (CodeParty, name, bank, phone, alcohol) VALUES ('%s', '%s', '%s', '%s', %b) RETURNING user_id", user.getCodeParty(), user.getName(),
+                " (codeparty, name, bank, phone, alcohol) VALUES ('%s', '%s', '%s', '%s', %b) RETURNING user_id", user.getCodeParty(), user.getName(),
                 user.getBank(), user.getPhone(), user.getAlcohol());
         PreparedStatement stmt = connection.prepareStatement(insertUser);
         stmt.execute();
         ResultSet last_updated_person = stmt.getResultSet();
         last_updated_person.next();
         idUser = last_updated_person.getInt(1);
+        LOGGER.info(String.format("ID пользователя %s = %d", user.getName(), idUser));
         disconnect();
         return idUser;
     }
@@ -90,10 +99,17 @@ public class DataBase {
 
     public void getParty(Party party) throws SQLException, URISyntaxException {
         connect();
-        resultSet = statement.executeQuery(String.format("SELECT NameParty, DateStartParty, DateEndParty FROM public.parties WHERE CodeParty = '%s'", party.getCodeParty()));
-        party.setNameParty(resultSet.getString("NameParty"));
-        party.setDateStart(resultSet.getString("DateStartParty"));
-        party.setDateEnd(resultSet.getString("DateEndParty"));
+        LOGGER.info("Взять из public.parties данные мероприятия ");
+        resultSet = statement.executeQuery(String.format("SELECT nameparty, datestartparty, dateendparty FROM public.parties WHERE codeparty = '%s'", party.getCodeParty()));
+        while (resultSet.next()){
+            party.setNameParty(resultSet.getString("nameparty"));
+            LOGGER.info(String.format("Получили имя мероприятия %s", party.getNameParty()));
+            party.setDateStart(resultSet.getString("datestartparty"));
+            LOGGER.info(String.format("Получили дату начала %s", party.getDateStart()));
+            party.setDateEnd(resultSet.getString("dateendparty"));
+            LOGGER.info(String.format("Получили дату окончания %s", party.getDateEnd()));
+        }
+
         disconnect();
     }
 }
