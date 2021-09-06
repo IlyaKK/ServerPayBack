@@ -8,9 +8,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.HashMap;
 import static payback.Log.LOGGER;
@@ -28,10 +31,11 @@ public class CreatePartyServlet extends HttpServlet{
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
         LOGGER.info("Receive http req: " + req.getRequestURI());
         party = new Party();
-        party.setNameParty(req.getParameter("name_party"));
+        JSONObject jsonRequest = new JSONObject(getBody(req));
+        party.setNameParty(jsonRequest.getString("nameParty"));
         party.generateCodeParty();
-        party.setDateStart(req.getParameter("data_start_party") + " " + req.getParameter("time_start_party"));
-        party.setDateEnd(req.getParameter("data_end_party") + " " + req.getParameter("time_end_party"));
+        party.setDateStart(jsonRequest.getString("timeStart") + " " + jsonRequest.getString("dateStart"));
+        party.setDateEnd(jsonRequest.getString("timeEnd") + " " + jsonRequest.getString("dateEnd"));
         LOGGER.info("Создался объект Party: " + party);
         try {
             party.createInDataBase();
@@ -51,6 +55,20 @@ public class CreatePartyServlet extends HttpServlet{
             LOGGER.warning("Ошибка при ответе на запрос POST: " + replyJSON);
             e.printStackTrace();
         }
+    }
+
+    public static String getBody(HttpServletRequest request) {
+        StringBuilder stringBuilder = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(
+                new InputStreamReader(request.getInputStream(), StandardCharsets.UTF_8))) {
+            String responseLine;
+            while ((responseLine = br.readLine()) != null) {
+                stringBuilder.append(responseLine.trim());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return stringBuilder.toString();
     }
 
     @Override
