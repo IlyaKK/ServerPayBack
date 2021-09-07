@@ -6,7 +6,9 @@ import payback.User;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.*;
+
 import static payback.Log.LOGGER;
+
 public class DataBase {
     private static Connection connection;
     private static Statement statement;
@@ -43,14 +45,15 @@ public class DataBase {
         connect();
         LOGGER.info(String.format("Создание мероприятия %s в базе данных", nameParty));
         String insertParty;
-        if(nameParty.equals("null")){
+        if (nameParty.equals("null") || "".equals(nameParty)) {
             insertParty = String.format("INSERT INTO public.Parties" +
-                            " (CodeParty) VALUES ('%s')", codeParty);
-        }else if (startTimeParty.equals("null null") || endTimeParty.equals("null null")){
+                    " (CodeParty) VALUES ('%s')", codeParty);
+        } else if (startTimeParty.equals("null null") || endTimeParty.equals("null null") || "".equals(startTimeParty) ||
+                "".equals(endTimeParty)) {
             insertParty = String.format("INSERT INTO public.Parties" +
                             " (NameParty, CodeParty) VALUES ('%s', '%s')", nameParty,
                     codeParty);
-        }else {
+        } else {
             insertParty = String.format("INSERT INTO public.Parties" +
                             " (NameParty, CodeParty, DateStartParty, DateEndParty) VALUES ('%s', '%s', '%s', '%s')", nameParty,
                     codeParty, startTimeParty, endTimeParty);
@@ -82,7 +85,7 @@ public class DataBase {
         connect();
         LOGGER.info(String.format("Создание пользователя %s в базе данных", user.getName()));
         String insertUser = String.format("INSERT INTO public.users" +
-                " (codeparty, name, bank, phone, alcohol) VALUES ('%s', '%s', '%s', '%s', %b) RETURNING user_id", user.getCodeParty(), user.getName(),
+                        " (codeparty, name, bank, phone, alcohol) VALUES ('%s', '%s', '%s', '%s', %b) RETURNING user_id", user.getCodeParty(), user.getName(),
                 user.getBank(), user.getPhone(), user.getAlcohol());
         PreparedStatement stmt = connection.prepareStatement(insertUser);
         stmt.execute();
@@ -104,7 +107,7 @@ public class DataBase {
         connect();
         LOGGER.info("Взять из public.parties данные мероприятия ");
         resultSet = statement.executeQuery(String.format("SELECT nameparty, datestartparty, dateendparty FROM public.parties WHERE codeparty = '%s'", party.getCodeParty()));
-        while (resultSet.next()){
+        while (resultSet.next()) {
             party.setNameParty(resultSet.getString("nameparty"));
             LOGGER.info(String.format("Получили имя мероприятия %s", party.getNameParty()));
             party.setDateStart(resultSet.getString("datestartparty"));
