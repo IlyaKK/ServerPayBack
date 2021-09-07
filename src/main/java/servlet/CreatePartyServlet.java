@@ -1,7 +1,6 @@
 package servlet;
 
 import org.json.JSONObject;
-import payback.Log;
 import payback.Party;
 
 import javax.servlet.annotation.WebServlet;
@@ -16,6 +15,7 @@ import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.util.HashMap;
+
 import static payback.Log.LOGGER;
 
 
@@ -24,14 +24,12 @@ import static payback.Log.LOGGER;
         urlPatterns = {"/party_create"}
 )
 public class CreatePartyServlet extends HttpServlet{
-    private Party party;
-    private final Log log = new Log();
-    private HashMap<String, String> map = new HashMap<>();
+    private final HashMap<String, String> map = new HashMap<>();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
-        LOGGER.info("Receive http req: " + req.getRequestURI());
-        party = new Party();
         JSONObject jsonRequest = new JSONObject(getBody(req));
+        LOGGER.info("Receive http req: " + req.getRequestURI());
+        Party party = new Party();
         party.setNameParty(jsonRequest.getString("nameParty"));
         party.generateCodeParty();
         party.setDateStart(jsonRequest.getString("timeStart") + " " + jsonRequest.getString("dateStart"));
@@ -39,7 +37,7 @@ public class CreatePartyServlet extends HttpServlet{
         LOGGER.info("Создался объект Party: " + party);
         try {
             party.createInDataBase();
-            map.put("code_party",party.getCodeParty());
+            map.put("code_party", party.getCodeParty());
         } catch (SQLException | URISyntaxException e) {
             map.put("code_party", "error");
             LOGGER.warning("Ошибка создания мероприятия в базе данных");
