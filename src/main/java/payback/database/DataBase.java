@@ -48,8 +48,8 @@ public class DataBase {
         if (nameParty.equals("null") || "".equals(nameParty)) {
             insertParty = String.format("INSERT INTO public.Parties" +
                     " (CodeParty) VALUES ('%s')", codeParty);
-        } else if (startTimeParty.equals("null null") || endTimeParty.equals("null null") || "".equals(startTimeParty) ||
-                "".equals(endTimeParty)) {
+        } else if (startTimeParty.equals("null null") || endTimeParty.equals("null null") || " ".equals(startTimeParty) ||
+                " ".equals(endTimeParty)) {
             insertParty = String.format("INSERT INTO public.Parties" +
                             " (NameParty, CodeParty) VALUES ('%s', '%s')", nameParty,
                     codeParty);
